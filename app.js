@@ -26,11 +26,11 @@ var blogSchema = new mongoose.Schema({
 //compile the schema into a model
 var Blog = mongoose.model("Blog", blogSchema); //"Blog" is a sigular name of the model  
 
-Blog.create({
+/*Blog.create({
    title:"Test Blog",
    image:"https://pixabay.com/get/eb34b6072ffc1c22d2524518b7444795ea76e5d004b0144396f5c67aaee5b4_340.jpg",
    body:"HELLO THIS IS A BLOG POST"
-});
+});*/
 
 //RESTFUL ROUTES
 
@@ -39,7 +39,13 @@ app.get("/", function(req, res){
 });
 
 app.get("/blogs", function(req, res){
-   res.render("index"); 
+  Blog.find({}, function(err, blogs){ //Retrieve all the data from the DB and name it "blogs"
+      if(err){
+          console.log("ERROR!");
+      } else {
+          res.render("index", {blogs: blogs});
+      }
+  });
 });
 
 
