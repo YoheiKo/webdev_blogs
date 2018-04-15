@@ -4,7 +4,7 @@ var bodyParser  = require("body-parser"),
     app         = express();
 
 app.set("view engine", "ejs");
-app.use(express.static("public"));//This is an express middleware to create a directory called public to load static file. 
+app.use(express.static("public")); //This is an express middleware to create a directory called public to load static file. 
 app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/restful_blog_app");
 //restful_blog_app is the name of the app we are creating now. It can be named anything, doesnt exist yet
@@ -32,12 +32,13 @@ var Blog = mongoose.model("Blog", blogSchema); //"Blog" is a sigular name of the
    body:"HELLO THIS IS A BLOG POST"
 });*/
 
-//RESTFUL ROUTES
 
+// RESTFUL ROUTES
 app.get("/", function(req, res){
     res.redirect("/blogs");
 });
 
+//INDEX ROUTE
 app.get("/blogs", function(req, res){
   Blog.find({}, function(err, blogs){ //Retrieve all the data from the DB and name it "blogs"
       if(err){
@@ -48,6 +49,35 @@ app.get("/blogs", function(req, res){
   });
 });
 
+// NEW ROUTE
+app.get("/blogs/new", function(req, res){
+   res.render("new"); 
+});
+
+// CREATE ROUTE (create new data and redirect)
+app.post("/blogs", function(req, res){
+   //create blog
+   Blog.create(req.body.blog, function(err, newBlog){ //data from the post is inside the req.body
+       if(err){
+           res.render("new");
+       } else {
+           res.redirect("/blogs");
+       }
+   });
+   //then redirect to the index
+});
+
+// SHOW ROUTE
+app.get("/blogs/:id", function(req,res){
+   Blog.findById(req.params.id, function(err, foundblog){
+       if(err){
+           res.redirect("/blogs");
+       } else {
+            res.render("show", {blof: foundblog});      
+       }
+       
+   })
+});
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("server is running");

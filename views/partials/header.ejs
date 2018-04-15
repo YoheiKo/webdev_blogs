@@ -2,12 +2,17 @@
     <head>
         <title>Blog App</title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">  
-        <link rel="stylesheet" type="text/css" href="stylesheets/app.css">  
+        <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+        <!--YOU NEED A SLASH BEFORE THE stylesheets/app.js-->
+        <!--"/" looks for stylesheets/app.css in other directory-->
+        <!--if we just do "stylesheets/app.css" instead of "/stylesheets/app.css" it will look for stylesheets/app.css in the same directory-->
+
+        <!--app.use(express.static("public"));//This is an express middleware to create a directory called public to load static file.-->
     </head>
     <body>
         <div class="ui fixed inverted menu ">
             <div class="ui container">
-                <div class="header item"><div class="coffeecontainer"><i class="icon coffee"></i></div>Blog Site</div>
+                <div class="header item"><div class="coffeecontainer"><i class="icon coffee"></i></div>Yohei.Ko Blog</div>
                 <a href="/" class="item">Home</a>
                 <a href="/blogs/new" class="item">New Post</a>
             </div>
