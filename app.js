@@ -1,4 +1,5 @@
 var bodyParser  = require("body-parser"),
+    methodOverride = require("method-override"),
     mongoose    = require("mongoose"),
     express     = require("express"),
     app         = express();
@@ -6,6 +7,9 @@ var bodyParser  = require("body-parser"),
 app.set("view engine", "ejs");
 app.use(express.static("public")); //This is an express middleware to create a directory called public to load static file. 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
+//"_method" could be anything. It looks for it in the url"
+
 mongoose.connect("mongodb://localhost/restful_blog_app");
 //restful_blog_app is the name of the app we are creating now. It can be named anything, doesnt exist yet
 
@@ -73,11 +77,30 @@ app.get("/blogs/:id", function(req,res){
        if(err){
            res.redirect("/blogs");
        } else {
-            res.render("show", {blof: foundblog});      
+            res.render("show", {blog: foundblog});      
        }
        
-   })
+   });
 });
+
+
+// EDIT ROUTE
+app.get("/blogs/:id/edit", function(req, res){
+   Blog.findById(req.params.id, function(err, foundblog){
+       if(err){
+          res.redirect("/blogs");     
+       } else {
+          res.render("edit", {blog: foundblog});   
+       }
+   });
+   
+});
+
+// UPDATE ROUTE
+app.put("/blogs/:id", function(req, res){
+   res.send("UPDATED"); 
+});
+
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("server is running");

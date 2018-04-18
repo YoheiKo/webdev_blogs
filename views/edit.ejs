@@ -1,0 +1,25 @@
+<% include partials/header %> <!--We can also do partials/header-->
+
+
+<div class="ui main text container segment">
+    <div class="ui huge header">Edit <%= blog.title %></div>
+    <form class="ui form" action="/blogs/<%= blog._id %>?_method=PUT " method="POST">
+        <!--When we submit a form with method="PUT" the browser turns it into GET request. It can only take "GET" and "POST".-->
+        <!--Change it to POST and use a method overide _method=PUT-->
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="blog[title]" value="<%= blog.title %>">
+        </div>
+        <div class="field">
+            <label>Image</label>
+            <input type="text" name="blog[image]" value="<%= blog.image %> ">
+        </div>
+        <div class="field">
+            <label>Blog Content</label>
+            <textarea name="blog[body]"><%- blog.body %></textarea> <!--textarea doesnt have a value attribute-->
+        </div>
+        <input class="ui primary basic button" type="submit" >
+    </form>
+</div>
+
+<% include partials/footer %> <!--We can also do partials/header-->

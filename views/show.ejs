@@ -1,0 +1,16 @@
+<% include partials/header %> <!--We can also do partials/header-->
+    <div class="ui main text container">
+        <div class="ui huge header"><%= blog.title %></div>
+        <div class="ui top attached segment">
+            <div class="item">
+                <br><img class="ui centered rounded image" src="<%= blog.image %>">
+                <div class="content">
+                    <br><span><%= blog.created.toDateString() %></span> <!--change date to human readable date-->            
+                </div>
+                <div class="description">
+                    <p><%- blog.body %></p> <!-- CHANGING  "< %=" to "< %-" IS VERY POWERFUL. IT WILL READ THE CODE INSIDE OF IT -->             
+                </div>
+            </div>
+        </div>
+    </div>
+<% include partials/footer %>
