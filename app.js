@@ -61,7 +61,8 @@ app.get("/blogs/new", function(req, res){
 // CREATE ROUTE (create new data and redirect)
 app.post("/blogs", function(req, res){
    //create blog
-   Blog.create(req.body.blog, function(err, newBlog){ //data from the post is inside the req.body
+   Blog.create(req.body.blog, function(err, newBlog){
+       //data from the post is inside the req.body
        if(err){
            res.render("new");
        } else {
@@ -97,8 +98,16 @@ app.get("/blogs/:id/edit", function(req, res){
 });
 
 // UPDATE ROUTE
+// Method overide is listening for "?_method=PUT" and treat it as a PUT request
 app.put("/blogs/:id", function(req, res){
-   res.send("UPDATED"); 
+   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+       if(err){
+           res.redirect("/blogs");
+       } else {
+           res.redirect("/blogs/" + req.params.id);
+           // redirect us to the show page
+       }
+   });
 });
 
 
