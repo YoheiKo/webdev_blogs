@@ -8,7 +8,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public")); //This is an express middleware to create a directory called public to load static file. 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
-//"_method" could be anything. It looks for it in the url"
+// Basically HtML form doesnt support anything other than GET or POST request
+//"_method" could be anything. It looks for it in the url" 
 
 mongoose.connect("mongodb://localhost/restful_blog_app");
 //restful_blog_app is the name of the app we are creating now. It can be named anything, doesnt exist yet
@@ -101,6 +102,7 @@ app.get("/blogs/:id/edit", function(req, res){
 // Method overide is listening for "?_method=PUT" and treat it as a PUT request
 app.put("/blogs/:id", function(req, res){
    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+       //.findByIdAndUpdate is a very useful method. It find the model and update it
        if(err){
            res.redirect("/blogs");
        } else {
@@ -110,6 +112,20 @@ app.put("/blogs/:id", function(req, res){
    });
 });
 
+
+// DELETE ROUTE
+app.delete("/blogs/:id", function(req, res){
+    //DESTROY
+    Blog.findByIdAndRemove(req.params.id, function(err){
+    //REDIRECT TO SOMEWHERE
+        if(err){
+            res.redirect("/blogs");
+        } else {
+            res.redirect("/blogs");
+        }
+    });
+    
+});
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("server is running");
