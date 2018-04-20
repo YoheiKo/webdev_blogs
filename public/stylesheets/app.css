@@ -14,3 +14,7 @@
 .indexcontainer {
     margin-top:7em;
 }
+
+.showform {
+    display: inline;
+}

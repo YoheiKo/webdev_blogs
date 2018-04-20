@@ -10,7 +10,10 @@
                 <div class="description">
                     <p><%- blog.body %></p> <!-- CHANGING  "< %=" to "< %-" IS VERY POWERFUL. IT WILL READ THE CODE INSIDE OF IT -->             
                 </div>
-                <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                <form class="showform" action="/blogs/<%= blog._id %>/edit" method="GET">
+                    <button class="ui orange basic button">Edit</button>
+                </form>
+                <form class="showform" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
                     <button class="ui red basic button">Delete</button>
                 </form>
             </div>
