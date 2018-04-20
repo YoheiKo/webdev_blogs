@@ -1,5 +1,6 @@
 var bodyParser  = require("body-parser"),
     methodOverride = require("method-override"),
+    expressSanitizer = require("express-sanitizer"),
     mongoose    = require("mongoose"),
     express     = require("express"),
     app         = express();
@@ -7,6 +8,8 @@ var bodyParser  = require("body-parser"),
 app.set("view engine", "ejs");
 app.use(express.static("public")); //This is an express middleware to create a directory called public to load static file. 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
+// Mount the middleware expressSanitizer below the bodyParser() instantiations and above mounting of your routes
 app.use(methodOverride("_method"));
 // Basically HtML form doesnt support anything other than GET or POST request
 //"_method" could be anything. It looks for it in the url" 
@@ -61,6 +64,8 @@ app.get("/blogs/new", function(req, res){
 
 // CREATE ROUTE (create new data and redirect)
 app.post("/blogs", function(req, res){
+   //sanitize body
+   req.body.blog.body = req.sanitize(req.body.blog.body);
    //create blog
    Blog.create(req.body.blog, function(err, newBlog){
        //data from the post is inside the req.body
@@ -101,6 +106,8 @@ app.get("/blogs/:id/edit", function(req, res){
 // UPDATE ROUTE
 // Method overide is listening for "?_method=PUT" and treat it as a PUT request
 app.put("/blogs/:id", function(req, res){
+    //sanitize body
+   req.body.blog.body = req.sanitize(req.body.blog.body);        
    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
        //.findByIdAndUpdate is a very useful method. It find the model and update it
        if(err){
