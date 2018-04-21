@@ -1,17 +1,43 @@
 <% include partials/header %> <!--We can also do ./partials/header-->
 
-    <div class="indexcontainer">
-        <h1>Index page</h1>
-        
-        <% blogs.forEach(function(blog){ %>
-            <div>
-                <h2><%= blog.title %></h2>
-                <img src="<%= blog.image %>">
-                <span><%= blog.created %></span>
-                <p><%= blog.body.substring(0,100) %></p> <!--limit string to the first 100 char-->
-                <a href="/blogs/<%= blog._id %>">Read more</a>
+    <div class="ui main text container">  <!--centered contatiner-->
+        <!--<div class="indexcontainer">-->
+        <div class="ui huge header">RESTFUL BLOG APP</div>
+            <div class="ui top vertical  segment">
+                <div class="ui divided items">
+                     <% blogs.forEach(function(blog){ %>
+                        <div class="item">
+                            
+                            <div class="image">
+                                <img src="<%= blog.image %>">    
+                            </div>
+                            
+                            <div class="content">
+                                <a class="header" href="/blogs/<%= blog._id %>"><%= blog.title %>
+                                </a>   
+                                
+                                <div class="meta">
+                                    <span><%= blog.created.toDateString() %></span>
+                                </div>
+                                
+                               <div class="description">
+                                    <p><%- blog.body.substring(0,100) %></p> <!--limit string to the first 100 char-->
+                                </div>
+                                
+                               <div class="extra">
+                                    <a class="ui floated basic small violet button" href="/blogs/<%= blog._id %>">
+                                        Read more
+                                        <i class="right chevron icon"></i>
+                                    </a>        
+                                </div>
+                                
+                            </div>
+                        </div>    
+                    <% }) %>    
+                </div>
             </div>
-        <% }) %>
-        
-        <% include partials/footer %>
-    </div>  
+        <!--</div>-->        
+    </div>
+      
+<% include partials/footer %>
+    
